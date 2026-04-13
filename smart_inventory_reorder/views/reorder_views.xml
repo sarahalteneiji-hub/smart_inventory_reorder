@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- List View -->
+    <record id="view_smart_reorder_recommendation_tree" model="ir.ui.view">
+        <field name="name">smart.reorder.recommendation.tree</field>
+        <field name="model">smart.reorder.recommendation</field>
+        <field name="arch" type="xml">
+            <tree string="Smart Reorder Recommendations">
+                <field name="product_id"/>
+                <field name="current_stock"/>
+                <field name="sales_last_30_days"/>
+                <field name="average_daily_demand"/>
+                <field name="days_left"/>
+                <field name="reorder_status"/>
+                <field name="alert_message"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_smart_reorder_recommendation_form" model="ir.ui.view">
+        <field name="name">smart.reorder.recommendation.form</field>
+        <field name="model">smart.reorder.recommendation</field>
+        <field name="arch" type="xml">
+            <form string="Smart Reorder Recommendation">
+                <sheet>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="alert_days"/>
+                    </group>
+
+                    <group string="Prediction Details">
+                        <field name="current_stock" readonly="1"/>
+                        <field name="sales_last_30_days" readonly="1"/>
+                        <field name="average_daily_demand" readonly="1"/>
+                        <field name="days_left" readonly="1"/>
+                        <field name="reorder_status" readonly="1"/>
+                        <field name="alert_message" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_smart_reorder_recommendation_search" model="ir.ui.view">
+        <field name="name">smart.reorder.recommendation.search</field>
+        <field name="model">smart.reorder.recommendation</field>
+        <field name="arch" type="xml">
+            <search string="Search Recommendations">
+                <field name="product_id"/>
+                <field name="reorder_status"/>
+
+                <filter name="filter_reorder_soon"
+                        string="Urgent Reorder"
+                        domain="[(reorder_status, '=', 'reorder_soon')]"/>
+
+                <filter name="filter_ok"
+                        string="OK"
+                        domain="[(reorder_status, '=', 'ok')]"/>
+
+                <filter name="filter_no_sales"
+                        string="No Recent Sales"
+                        domain="[(reorder_status, '=', 'no_sales')]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_smart_reorder_recommendation" model="ir.actions.act_window">
+        <field name="name">Smart Reorder Recommendations</field>
+        <field name="res_model">smart.reorder.recommendation</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_smart_reorder_recommendation_search"/>
+        <field name="help" type="html">
+            <p>
+                This screen shows smart inventory reorder recommendations based on current stock and sales history.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_smart_inventory_root"
+              name="Smart Inventory"
+              sequence="10"/>
+
+    <menuitem id="menu_smart_reorder_recommendation"
+              name="Reorder Recommendations"
+              parent="menu_smart_inventory_root"
+              action="action_smart_reorder_recommendation"
+              sequence="20"/>
+
+</odoo>
