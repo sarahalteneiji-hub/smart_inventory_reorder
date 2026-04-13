@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+
+    <record id="ir_cron_smart_reorder_daily_update" model="ir.cron">
+        <field name="name">Smart Reorder Daily Update</field>
+        <field name="model_id" ref="model_smart_reorder_recommendation"/>
+        <field name="state">code</field>
+        <field name="code">model.run_daily_recommendation_update()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+</odoo>
